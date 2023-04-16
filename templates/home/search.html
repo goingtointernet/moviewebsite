@@ -1,0 +1,144 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+<!--==title====================-->
+{% block title %}{{search}} - MHD{% endblock title %}
+
+
+<!--==body============================-->
+{% block body %}
+
+<!--==Latest-Movies==================================-->
+<section id="latest">
+
+    <!--heading-->
+    <div class="latest-heading">
+        <h1>Search: {{search}}</h1>
+    </div>
+
+    {% if pagination|length < 1 %}
+    <div class="search-not-found">
+        {% load static %}
+        <img src="{% static 'images/404.svg' %}" />
+        <span>Movie Not Found, <b>Try Another</b></span>
+    </div>
+    {% endif %}
+
+    <!--container-->
+    <div class="post-container">
+        {% for movie in pagination  %}
+        <!--post-box-1-->
+        <div class="post-box">
+            <!--img-->
+            <div class="post-img">
+                <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
+            </div>
+            <!--text-->
+            <div class="main-slider-text">
+
+                <!--quality-->
+                <span class="quality">{{movie.movie_quality}}</span>
+
+                <!--bottom-text-->
+                <div class="bottom-text">
+
+                    <!--name-->
+                    <div class="movie-name">
+                        <span>{{movie.movie_pulished_date}}</span>
+                        <a href="{% url 'moviepost' movie.permalink %}">{{movie.title}}</a>
+                    </div>
+
+                    <!--Category-and-rating-->
+                    <div class="category-rating">
+                        <!--category-->
+                        <div class="category">
+                            {% for category in movie.movie_categories.all %}
+                                <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
+                            {% endfor %}
+                        </div>
+                        <!--rating-->
+                        <div class="rating">
+                            {{movie.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div><!--endbox-->
+        {% endfor %}
+    </div>
+
+
+
+<!--page-number=====================-->
+<div class="page-number">
+    {% if pagination.has_previous %}
+    <a href="{% url 'search' %}?search={{search}}&page={{pagination.previous_page_number}}"><</a>
+        <a href="{% url 'search' %}?search={{search}}&page=1">First</a>
+        ...
+    {% endif %}
+
+    {% if page_range == 1 %}
+    {% else %}
+    {% for p in page_range|slice:":4" %}
+        <a href="{% url 'search' %}?search={{search}}&page={{p}}"
+        
+        {% if pagination.number == p %}
+        class="page-active"
+        {% endif %}
+
+        >{{p}}</a>
+    {% endfor %}
+    {% endif %}
+
+    {% if pagination.has_next %}
+    ....        
+    <a href="{% url 'search' %}?search={{search}}&page={{pagination.paginator.num_pages}}"> Last</a>
+    <a href="{% url 'search' %}?search={{search}}&page={{pagination.next_page_number}}">></a>
+    {% endif %}
+</div>
+
+
+</section><!--post-end-->
+
+{% endblock body %}
+
+<!--==script==========================-->
+{% block script %}
+<!--==JS-Swiper====================================-->
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+<script>
+    /*Initialize Swiper*/
+    var swiper = new Swiper(".mySwipermovieslider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 40,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 50,
+            },
+        },
+    });
+</script>
+{% endblock script %}

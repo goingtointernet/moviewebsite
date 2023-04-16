@@ -1,0 +1,152 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+<!--==title====================-->
+{% block title %}{{moviedetails.title}}{% endblock title %}
+
+
+
+<!--==body============================-->
+{% block body %}
+<!--==Movie-Banner=========================================-->
+<section class="movie-banner">
+
+    <!--==img==================================-->
+    <div class="m-banner-img">
+        <img src="{{moviedetails.movie_thumb.url}}" alt="{{moviedetails.title}}">
+    </div>
+
+    <!--content================================-->
+    <div class="banner-container">
+
+        <!--title-container*******************-->
+        <div class="title-container">
+            <!--title-top===============-->
+            <div class="title-top">
+                <!--title-->
+                <div class="movie-title">
+                    <h1>{{moviedetails.title}}</h1>
+                </div>
+                <!--more-about-movie-->
+                <div class="more-about-movie">
+                    <span class="quality">{{moviedetails.movie_quality}}</span>
+                    <div class="rating">
+                        {{moviedetails.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd">
+                    </div>
+                    <span>{{moviedetails.movie_pulished_date}}</span>
+                    <span>{{moviedetails.movie_duration}}</span>
+                </div>
+                <!--language-->
+                <div class="language">
+                    <span>{{moviedetails.movie_language}}</span>
+                </div>
+
+            </div>
+
+
+            <!--Title-botttom==========================-->
+            <div class="title-bottom">
+                <!--category-->
+                <div class="category">
+                    <strong>Category</strong><br />
+                    {% for category in moviedetails.movie_categories.all %}
+                        <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
+                    {% endfor %}
+                </div>
+                <!--trailer-btn-->
+                <a href="{{moviedetails.movie_trailer_link}}" class="watch-btn">Watch Trailer</a>
+            </div>
+
+        </div>
+
+        <!--play-btn******************************-->
+        <div class="play-btn-container">
+            <div class="play-btn">
+                <a href="javascript:void">
+                    <i class="fas fa-play"></i>
+                </a>
+            </div>
+        </div>
+
+        <!--Video/full-Movie***************************-->
+        <div id="play" class="play">
+            <!--close-btn-->
+            <a href="javascript:void" class="close-movie">
+                <i class="fas fa-times"></i>
+            </a>
+            <!--movie-->
+            <div class="play-movie">
+                <iframe src="{{moviedetails.movie_stream_link}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+<!--Banner-end-->
+
+
+
+<!--details=====================================-->
+<section class="movie-details">
+    <strong>{{moviedetails.title}}</strong>
+    <p>{{moviedetails.description}}</p>
+</section>
+
+
+<!--==ScreenShots===============================-->
+<section class="screenshots">
+
+    <strong>ScreenShots</strong>
+    <!--screenshots-container-->
+    <div class="screen-s-container">
+        <img src="{{moviedetails.movie_screenshot1.url}}" alt="{{moviedetails.title}}">
+        <img src="{{moviedetails.movie_screenshot2.url}}" alt="{{moviedetails.title}}">
+        <img src="{{moviedetails.movie_screenshot3.url}}" alt="{{moviedetails.title}}">
+        <img src="{{moviedetails.movie_screenshot4.url}}" alt="{{moviedetails.title}}">
+    </div>
+
+</section>
+
+<!--==Download====================================-->
+<section class="download-movie">
+
+    <!--container-->
+    <div class="download-container">
+        {% for download in moviedetails.download_links.all  %}
+        <!--box-->
+        <div class="download-box">
+            <span><i class="fas fa-server"></i> Server {{ forloop.counter }}</span>
+            <span>{{moviedetails.movie_language}}</span>
+            <span>{{download.resolution}}</span>
+            <a href="{{download.link}}" >Download</a>
+        </div><!--box-end-->
+        {% endfor %}
+        
+    </div>
+
+</section>
+{% endblock body %}
+
+<!--==script==========================-->
+{% block script %}
+<script>
+    /*==popup-open==================================*/
+    $(document).on('click', '.play-btn a', function () {
+        $('.play').addClass('active-popup');
+    });
+    /*==popup-Close==================================*/
+    $(document).on('click', '.close-movie', function () {
+        $('.play').removeClass('active-popup');
+    });
+    /*==auto-play-when-popup-open===================*/
+    $('.play-btn a').click(function () {
+        $('#m-video')[0].play();
+    });
+    /*==Close-video-when-poppup-close==============*/
+    $('.close-movie').click(function () {
+        $('#m-video')[0].pause();
+    });
+
+</script>
+{% endblock script %}

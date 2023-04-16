@@ -1,0 +1,202 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+<!--==title====================-->
+{% block title %}MHD - Full HD Movies{% endblock title %}
+
+<!--==head_code============================-->
+{% block head_code %}
+<!--==CSS-Swiper==============================-->
+<link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}" />
+{% endblock head_code %}
+
+<!--==body============================-->
+{% block body %}
+<!--==slider============================================-->
+<section id="main-slider">
+
+    <!-- Swiper -->
+    <div class="swiper mySwipermovieslider">
+        <div class="swiper-wrapper">
+
+            {% for movie in slider.slide_movies.all %}
+            <!--slide-->
+            <div class="swiper-slide">
+                <!--box-->
+                <div class="main-slider-box">
+                    <!--overlayer-->
+                    <a href="{% url 'moviepost' movie.permalink %}" class="main-slider-overlay">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <!--img-->
+                    <div class="main-slider-img">
+                        <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
+                    </div>
+                    <!--text-->
+                    <div class="main-slider-text">
+                        <!--quality-->
+                        <span class="quality">{{movie.movie_quality}}</span>
+                        <!--bottom-text-->
+                        <div class="bottom-text">
+                            <!--name-->
+                            <div class="movie-name">
+                                <span>{{movie.movie_pulished_date}}</span>
+                                <a href="{% url 'moviepost' movie.permalink %}">{{movie.title}}</a>
+                            </div>
+                            <!--Category-and-rating-->
+                            <div class="category-rating">
+                                <!--category-->
+                                <div class="category">
+                                    {% for category in movie.movie_categories.all %}
+                                    <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
+                                    {% endfor %}
+                                </div>
+                                <!--rating-->
+                                <div class="rating">
+                                    {{movie.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--slide-end-->
+            {% endfor %}
+
+        </div>
+    </div>
+</section><!--slider-end-->
+
+<!--btns-->
+<div class="slider-btns">
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
+<!--slider-end-->
+
+
+
+<!--==Latest-Movies==================================-->
+<section id="latest">
+
+    <!--heading-->
+    <div class="latest-heading">
+        <h1>Latest Movies</h1>
+    </div>
+
+    <!--container-->
+    <div class="post-container">
+        {% for movie in pagination  %}
+        <!--post-box-1-->
+        <div class="post-box">
+            <!--img-->
+            <div class="post-img">
+                <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
+            </div>
+            <!--text-->
+            <div class="main-slider-text">
+
+                <!--quality-->
+                <span class="quality">{{movie.movie_quality}}</span>
+
+                <!--bottom-text-->
+                <div class="bottom-text">
+
+                    <!--name-->
+                    <div class="movie-name">
+                        <span>{{movie.movie_pulished_date}}</span>
+                        <a href="{% url 'moviepost' movie.permalink %}">{{movie.title}}</a>
+                    </div>
+
+                    <!--Category-and-rating-->
+                    <div class="category-rating">
+                        <!--category-->
+                        <div class="category">
+                            {% for category in movie.movie_categories.all %}
+                                <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
+                            {% endfor %}
+                        </div>
+                        <!--rating-->
+                        <div class="rating">
+                            {{movie.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd" />
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div><!--endbox-->
+        {% endfor %}
+    </div>
+
+
+<!--page-number=====================-->
+<div class="page-number">
+    {% if pagination.has_previous %}
+    <a href="?page={{pagination.previous_page_number}}"><</a>
+        <a href="?page=1">First</a>
+        ...
+    {% endif %}
+
+    {% if page_range == 1 %}
+    {% else %}
+    {% for p in page_range|slice:":4" %}
+        <a href="?page={{p}}"
+        
+        {% if pagination.number == p %}
+        class="page-active"
+        {% endif %}
+
+        >{{p}}</a>
+    {% endfor %}
+    {% endif %}
+
+    {% if pagination.has_next %}
+    ....        
+    <a href="?page={{pagination.paginator.num_pages}}"> Last</a>
+        <a href="?page={{pagination.next_page_number}}">></a>
+    {% endif %}
+</div>
+
+
+</section><!--post-end-->
+
+{% endblock body %}
+
+<!--==script==========================-->
+{% block script %}
+<!--==JS-Swiper====================================-->
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
+<script>
+    /*Initialize Swiper*/
+    var swiper = new Swiper(".mySwipermovieslider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 40,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 50,
+            },
+        },
+    });
+</script>
+{% endblock script %}
