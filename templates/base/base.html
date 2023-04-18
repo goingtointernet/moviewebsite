@@ -7,12 +7,14 @@
     {% load static %}
     <!--==Title==================================-->
     <title>{% block title %}{% endblock title %}</title>
-
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="{{sitedata.site_name}}">
+    {% block head_meta %}{% endblock head_meta %}
     <!--Stylesheet(CSS)==========================-->
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
 
     <!--==Fav-icon===============================-->
-    <link rel="shortcut icon" href="{% static 'images/fav-icon.png' %}"/>
+    <link rel="shortcut icon" href="{{sitedata.fav_icon.url}}"/>
 
     <!--==Import-poppins-font====================-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,9 +27,37 @@
     <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
 
     <!--==Using-Font-Awesome======================-->
-    <script src="https://kit.fontawesome.com/c8e4d183c2.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     {% block head_code %}{% endblock head_code %}
+    {{sitedata.head_script|safe}}
+
+    <!--==cutome-css========================-->
+    <style>
+        {% if sitedata.show_ads == True and ads.show_fixed_ad == True %}
+        @media(max-width:1000px) {
+            .scroll-up {
+                bottom: 160px;
+            }
+        }
+        {% else %}
+        @media(max-width:1000px) {
+            .scroll-up {
+                bottom: 30px;
+            }
+        }
+        {% endif %}
+
+        .main-slider-box{
+            height: {{sitedata.slider_box_height}};}
+        .post-box{
+            height: {{sitedata.movie_box_height}};}
+        .movie-banner{
+            min-height: {{sitedata.movie_banner_min_height}};
+        }
+        
+        {{sitedata.custome_css|safe}}
+    </style>
 </head>
 <body>
 
@@ -40,7 +70,7 @@
         </label>
         <!--logo-->
         <a href="{% url 'index' %}" class="logo">
-            Movies<span>.hd</span>
+            {{sitedata.logo}}<span>.hd</span>
         </a>
         <!--menu-->
         <ul class="menu">
@@ -59,29 +89,69 @@
                 <i class="fas fa-search"></i>
             </button>
         </form>
+        <!--modes-->
+        <div class="nav-modes">
+            <i id="nav-modes" class="fa-solid fa-moon"></i>
+        </div>
     </nav>
     <!--nav-end-->
+
+
+    {% if sitedata.show_ads == True %}
+    <div class="header-ad ads">
+        {{ads.head_ad|safe}}
+    </div>
+    {% endif %}
 
 
     <!--==body======================================-->
     {% block body %}{% endblock body %}
 
+    {% if sitedata.show_ads == True %}
+        <div class="header-ad ads footer-ad">
+            {{ads.footer_ad|safe}} 
+        </div>
+        <br/>
+    {% endif %}
 
        <!--==footer==============================-->
        <footer>
         <!--footer-logo-->
         <a href="{% url 'index' %}" class="logo">
-            Movies<span>hd</span>
+            {{sitedata.logo}}<span>hd</span>
         </a>
         <!--copyright-->
         <span class="copyright">
-            Copyright 2023 - GoingToInternet
+            {{sitedata.made_by}} - {{sitedata.copyright}}
         </span>
     </footer>
+    
+
+
+    <!--==scroll-top=======================-->
+    <button onclick="scrollToTop()" id="scroll-btn" class="scroll-up hide">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path
+                d="M201.4 105.4c12.5-12.5 32.8-12.5 45.3 0l192 192c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L224 173.3 54.6 342.6c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3l192-192z"
+                fill="#ffffff" />
+        </svg>
+    </button>
+
+
+    {% if sitedata.show_ads == True and ads.show_fixed_ad == True %}
+    <!--==fix-ad===========================-->
+    <div id="ad-banner">
+        <div id="ad-content">
+            <a href="javascript:void(0);" id="ad-close">&times;</a>
+            {{ads.fixed_ad|safe}}
+        </div>
+    </div>
+    {% endif %}
 
 
     <!--==jQuery=======================================-->
     <script src="{% static 'js/jQuery.js' %}"></script>
+    <script src="{% static 'js/dark.js' %}"></script>
     <!--==script======================================-->
     {% block script %}{% endblock script %}
     
@@ -95,7 +165,39 @@
                 $('.navigation').removeClass('fix-icon');
             }
         });
+
+        /*==scroll-to-top===================*/
+        myID = document.getElementById("scroll-btn");
+        var myScrollFunc = function () {
+            var y = window.scrollY;
+            if (y >= 200) {
+                myID.className = "scroll-up show"
+            } else {
+                myID.className = "scroll-up hide"
+            }
+        };
+        window.addEventListener("scroll", myScrollFunc);
+
+        function scrollToTop() {
+            window.scrollTo(0, 0);
+        }
+
+        {% if sitedata.show_ads == True and ads.show_fixed_ad == True %}
+        /*==ad-script=============================*/
+        document.getElementById('ad-close').addEventListener('click', function () {
+            document.getElementById('ad-banner').style.display = 'none';
+            document.getElementById('scroll-btn').style.bottom = '30px';
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('ad-banner').style.display = 'flex';
+        });
+        {% endif %}
+
     </script>
+
+
+    {{sitedata.bodyend_script|safe}}
 
 
 </body>

@@ -20,11 +20,22 @@ from django.conf.urls.static import static #add this
 from django.conf import settings
 from django.views.static import serve
 from django.urls import re_path as url
+from django.contrib.sitemaps.views import sitemap
+
+from home.sitemap import PostSitemap
+from django.views.generic.base import TemplateView 
+
+sitemaps = {
+    'posts': PostSitemap
+}
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'^media/(?P<path>.*)$', serve,{'document_root':settings.MEDIA_ROOT}), 
+    url(r'^static/(?P<path>.*)$', serve,{'document_root':settings.STATIC_ROOT}),
+    path('sitemap.xml', sitemap, {'sitemaps':sitemaps}),
+    path("robots.txt",TemplateView.as_view(template_name="seo/robots.txt", content_type="text/plain")),  #add the robots.txt file
     path('', include('home.urls')),
-    url(r'^media/(?P<path>.*)$', serve,{'document_root':       settings.MEDIA_ROOT}), 
-    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+handler404= 'home.views.error_404_view'

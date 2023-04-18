@@ -1,0 +1,23 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+<!--==title====================-->
+{% block title %}Page Not Found - 404{% endblock title %}
+
+
+<!--==body============================-->
+{% block body %}
+
+<!--==Latest-Movies==================================-->
+<section id="latest">
+
+    <div class="search-not-found">
+        {% load static %}
+        <img src="{% static 'images/404.svg' %}" />
+        <span>Movie Not Found, <b>Try Another</b></span>
+    </div>
+
+</section><!--post-end-->
+
+{% endblock body %}
+

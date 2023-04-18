@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
-    p = Paginator(Movie.objects.all().order_by('-pk'), 10)
+    p = Paginator(Movie.objects.all().order_by('-pk'),10)
     page = request.GET.get('page')
     pagination = p.get_page(page)
     current_numer = pagination.number
@@ -20,9 +20,15 @@ def index(request):
 
 def moviepost(request, permalink):
     moviedetails = Movie.objects.filter(permalink=permalink).first()
-    
-    context = {'moviedetails':moviedetails}
-    return render(request, 'home/movie-details.html', context)
+    if moviedetails:
+        context = {'moviedetails':moviedetails}
+        return render(request, 'home/movie-details.html', context)
+    else:
+        return render(request, 'home/404.html')
+
+#==custome-404===============================# 
+def error_404_view(request, exception):
+    return render(request, 'home/404.html')
 
 #==Search============================#
 def search(request):

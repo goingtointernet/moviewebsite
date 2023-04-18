@@ -3,7 +3,15 @@
 {% load static %}
 <!--==title====================-->
 {% block title %}MHD - Full HD Movies{% endblock title %}
-
+{% block head_meta %}
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="description" content="{{sitedata.meta_description}}">
+    <meta name="keywords" content="{{sitedata.meta_keyword}}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{sitedata.site_url}}">
+    <meta property="og:title" content="{{sitedata.title}}">
+    <meta property="og:description" content="{{sitedata.meta_description}}">
+{% endblock head_meta %}
 <!--==head_code============================-->
 {% block head_code %}
 <!--==CSS-Swiper==============================-->
@@ -73,7 +81,14 @@
 </div>
 <!--slider-end-->
 
-
+<br>
+{% if sitedata.show_ads == True %}
+    <!--ad-->
+    <div class="simple-ad ads">
+        {{ads.simple_content_ad|safe}}
+    </div>
+{% endif %}
+<br>
 
 <!--==Latest-Movies==================================-->
 <section id="latest">
@@ -132,28 +147,13 @@
 <!--page-number=====================-->
 <div class="page-number">
     {% if pagination.has_previous %}
-    <a href="?page={{pagination.previous_page_number}}"><</a>
-        <a href="?page=1">First</a>
-        ...
+    <a href="?page={{pagination.previous_page_number}}"><<</a>
+    <a href="?page=1">Previous</a>
     {% endif %}
 
-    {% if page_range == 1 %}
-    {% else %}
-    {% for p in page_range|slice:":4" %}
-        <a href="?page={{p}}"
-        
-        {% if pagination.number == p %}
-        class="page-active"
-        {% endif %}
-
-        >{{p}}</a>
-    {% endfor %}
-    {% endif %}
-
-    {% if pagination.has_next %}
-    ....        
-    <a href="?page={{pagination.paginator.num_pages}}"> Last</a>
-        <a href="?page={{pagination.next_page_number}}">></a>
+    {% if pagination.has_next %}    
+    <a href="?page={{pagination.next_page_number}}">Next</a>
+    <a href="?page={{pagination.paginator.num_pages}}"> >></a>
     {% endif %}
 </div>
 

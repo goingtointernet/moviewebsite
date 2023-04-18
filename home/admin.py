@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Movie, DownloadLink, MovieSlider
+from .models import Category, Movie, DownloadLink, MovieSlider, Ads, SiteData
 # Movie
 @admin.register(Movie)
 class MovieModelAdmin(admin.ModelAdmin):
@@ -10,3 +10,7 @@ admin.site.register(Category)
 admin.site.register(DownloadLink)
 #slider
 admin.site.register(MovieSlider)
+#ads
+admin.site.register(Ads)
+#static data
+admin.site.register(SiteData)

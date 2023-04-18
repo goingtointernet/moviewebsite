@@ -2,9 +2,17 @@
 
 {% load static %}
 <!--==title====================-->
-{% block title %}{{moviedetails.title}}{% endblock title %}
+{% block title %}{{moviedetails.meta_title}}{% endblock title %}
 
-
+{% block head_meta %}
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="description" content="{{moviedetails.meta_description}}">
+    <meta name="keywords" content="{{moviedetails.keyword}}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{sitedata.site_url}}/{{moviedetails.permalink}}">
+    <meta property="og:title" content="{{moviedetails.meta_title}}">
+    <meta property="og:description" content="{{moviedetails.meta_description}}">
+{% endblock head_meta %}
 
 <!--==body============================-->
 {% block body %}
@@ -25,7 +33,7 @@
             <div class="title-top">
                 <!--title-->
                 <div class="movie-title">
-                    <h1>{{moviedetails.title}}</h1>
+                    <h1>{{moviedetails.meta_title}}</h1>
                 </div>
                 <!--more-about-movie-->
                 <div class="more-about-movie">
@@ -86,11 +94,20 @@
 <!--Banner-end-->
 
 
+{% if sitedata.show_ads == True %}
+<br>
+    <!--ad-->
+    <div class="simple-ad ads">
+        {{ads.simple_content_ad|safe}}
+    </div>
+<br>
+{% endif %}
+
 
 <!--details=====================================-->
 <section class="movie-details">
     <strong>{{moviedetails.title}}</strong>
-    <p>{{moviedetails.description}}</p>
+    <p>{{moviedetails.description|safe}}</p>
 </section>
 
 
