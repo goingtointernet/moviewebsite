@@ -40,6 +40,11 @@ class Movie(models.Model):
     movie_language = models.CharField(max_length=160)
     movie_trailer_link = models.CharField(max_length=160)
     movie_imdb_id = models.CharField(max_length=260, default="", null=True, blank=True)
+    movie_tmbd_id = models.CharField(max_length=260, default="", null=True, blank=True)
+    stream_movie_or_show_title = models.CharField(max_length=260, default="", null=True, blank=True)
+    stream_movie_or_show_year = models.IntegerField(null=True, blank=True)
+    stream_season_number = models.IntegerField(null=True, blank=True)
+    stream_episode_number = models.IntegerField(null=True, blank=True)
     movie_stream_cutome_link = models.CharField(max_length=260, default="", null=True, blank=True)
     download_links = models.ManyToManyField(DownloadLink, blank=True)
     permalink =models.CharField(max_length=70, unique=True)
@@ -61,6 +66,7 @@ class Movie(models.Model):
 
 
 class MovieSlider(models.Model):
+    slider_heading = models.CharField(max_length=260, default="")
     slide_movies = models.ManyToManyField(Movie, blank=True)
 
 # Site-Data.

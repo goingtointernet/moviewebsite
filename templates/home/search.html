@@ -29,6 +29,10 @@
         {% for movie in pagination  %}
         <!--post-box-1-->
         <div class="post-box">
+            <!--overlayer-->
+            <a href="{% url 'moviepost' movie.permalink %}" class="main-slider-overlay">
+                <i class="fas fa-play"></i>
+            </a>
             <!--img-->
             <div class="post-img">
                 <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
@@ -74,13 +78,13 @@
 <!--page-number=====================-->
 <div class="page-number">
     {% if pagination.has_previous %}
-    <a href="?page={{pagination.previous_page_number}}"><<</a>
-    <a href="?page=1">Previous</a>
+    <a href="search?search={{search}}&page={{pagination.previous_page_number}}"><<</a>
+    <a href="search?search={{search}}&page=1">Previous</a>
     {% endif %}
 
     {% if pagination.has_next %}    
-    <a href="?page={{pagination.next_page_number}}">Next</a>
-    <a href="?page={{pagination.paginator.num_pages}}"> >></a>
+    <a href="search?search={{search}}&page={{pagination.next_page_number}}">Next</a>
+    <a href="search?search={{search}}&page={{pagination.paginator.num_pages}}"> >></a>
     {% endif %}
 </div>
 

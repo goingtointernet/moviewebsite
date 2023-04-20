@@ -81,7 +81,7 @@
             <li><a href="#">Contact</a></li>
         </ul>
         <!--Search-box-->
-        <form action="{% url 'search' %}" class="search-box">
+        <form action="{% url 'search' %}" method="GET" class="search-box">
             <!--input-->
             <input type="text" name="search" value="{{search}}" placeholder="Search Movie" class="search-input" required/>
             <!--btn-->
@@ -95,13 +95,6 @@
         </div>
     </nav>
     <!--nav-end-->
-
-
-    {% if sitedata.show_ads == True %}
-    <div class="header-ad ads">
-        {{ads.head_ad|safe}}
-    </div>
-    {% endif %}
 
 
     <!--==body======================================-->

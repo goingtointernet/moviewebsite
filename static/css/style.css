@@ -174,7 +174,7 @@ a{
     background-color: transparent;
     border: none;
     outline: none;
-    color: #ffffff;
+    color: var(--text-color);
 }
 .search-box input::placeholder{
     color:var(--paragraph-color);
@@ -306,7 +306,8 @@ a{
 .main-slider-overlay i{
     font-size: 2rem;
 }
-.main-slider-box:hover .main-slider-overlay{
+.main-slider-box:hover .main-slider-overlay,
+.post-box:hover .main-slider-overlay{
     top: 0px;
     transition: all ease 0.3s;
 }
@@ -344,7 +345,9 @@ a{
     background-color: var(--heading-bg);
     border: 1px solid var(--section-border);
 }
-.latest-heading h1{
+.latest-heading h1,
+.latest-heading h2,
+.latest-heading h3{
     color:var(--text-color);
     font-size: 1.3rem;
     font-weight: 500;

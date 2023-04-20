@@ -92,8 +92,18 @@
             </a>
             <!--movie-->
             <div class="play-movie">
-                {% if moviedetails.movie_imdb_id %}
+                {% if moviedetails.movie_imdb_id and moviedetails.stream_season_number and moviedetails.stream_episode_number %}
+                <iframe src="https://www.2embed.to/embed/imdb/tv?id={{moviedetails.movie_imdb_id}}&s={{moviedetails.stream_season_number}}&e={{moviedetails.stream_episode_number}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% elif moviedetails.movie_tmbd_id and moviedetails.stream_season_number and moviedetails.stream_episode_number %}
+                <iframe src="https://www.2embed.to/embed/tmdb/tv?id={{moviedetails.movie_tmbd_id}}&s={{moviedetails.stream_season_number}}&e={{moviedetails.stream_episode_number}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% elif moviedetails.stream_movie_or_show_title and moviedetails.stream_movie_or_show_year and moviedetails.stream_season_number and moviedetails.stream_episode_number %}
+                <iframe src="https://www.2embed.to/embed/title/tv?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}&s={{moviedetails.stream_season_number}}&e={{moviedetails.stream_episode_number}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% elif moviedetails.movie_imdb_id %}
                 <iframe src="https://www.2embed.to/embed/imdb/movie?id={{moviedetails.movie_imdb_id}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% elif moviedetails.movie_tmbd_id %}
+                <iframe src="https://www.2embed.to/embed/tmdb/movie?id={{moviedetails.movie_tmbd_id}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% elif moviedetails.stream_movie_or_show_title and moviedetails.stream_movie_or_show_year %}
+                <iframe src="https://www.2embed.to/embed/title/movie?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
                 {% else %}
                 <iframe src="{{moviedetails.movie_stream_cutome_link}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
                 {% endif %}
@@ -106,14 +116,6 @@
 <!--Banner-end-->
 
 
-{% if sitedata.show_ads == True %}
-<br>
-    <!--ad-->
-    <div class="simple-ad ads">
-        {{ads.simple_content_ad|safe}}
-    </div>
-<br>
-{% endif %}
 
 
 <!--details=====================================-->
@@ -156,18 +158,10 @@
 
 </section>
 
-{% if sitedata.show_ads == True %}
-<br>
-    <!--ad-->
-    <div class="simple-ad ads">
-        {{ads.simple_content_ad|safe}}
-    </div>
-<br>
-{% endif %}
 
 <!--heading-->
 <div class="latest-heading" style="max-width:1170px; width:90%; margin:auto;">
-    <h1>Related Movies</h1>
+    <h2>Related Movies</h2>
 </div>
 <!--==slider============================================-->
 <section id="main-slider">

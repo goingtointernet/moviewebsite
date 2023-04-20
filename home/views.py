@@ -20,14 +20,14 @@ def index(request):
 
 def moviepost(request, permalink):
     moviedetails = Movie.objects.filter(permalink=permalink).first()
-    relaated_category = moviedetails.movie_categories.all()
     relaated_movie = []
-    for relaated_category in relaated_category:
-        relaated_category.counter = Movie.objects.filter(movie_categories=relaated_category)
-        relaated_movie += relaated_category.counter
-    r_movie = list(dict.fromkeys(relaated_movie))
-    r_movie.remove(moviedetails)
     if moviedetails:
+        relaated_category = moviedetails.movie_categories.all()
+        for relaated_category in relaated_category:
+            relaated_category.counter = Movie.objects.filter(movie_categories=relaated_category)
+            relaated_movie += relaated_category.counter
+        r_movie = list(dict.fromkeys(relaated_movie))
+        r_movie.remove(moviedetails)
         context = {'moviedetails':moviedetails,'r_movie':r_movie}
         return render(request, 'home/movie-details.html', context)
     else:
@@ -39,8 +39,13 @@ def error_404_view(request, exception):
 
 #==Search============================#
 def search(request):
-    search=request.GET['search']
-    if len(search)>78:
+    search = request.GET.get('search')
+    page_range = None
+    pagination = None
+
+    if search == None:
+        return render(request, 'home/404.html')
+    elif len(search)>78:
         movie = []
         search = "Search To Large!"
     else:    

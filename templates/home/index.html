@@ -20,9 +20,12 @@
 
 <!--==body============================-->
 {% block body %}
+ <!--heading-->
+ <div class="latest-heading" style="max-width:1170px; width:90%; margin:auto;">
+    <h2>{{slider.slider_heading}}</h2>
+</div>
 <!--==slider============================================-->
 <section id="main-slider">
-
     <!-- Swiper -->
     <div class="swiper mySwipermovieslider">
         <div class="swiper-wrapper">
@@ -81,15 +84,6 @@
 </div>
 <!--slider-end-->
 
-<br>
-{% if sitedata.show_ads == True %}
-    <!--ad-->
-    <div class="simple-ad ads">
-        {{ads.simple_content_ad|safe}}
-    </div>
-{% endif %}
-<br>
-
 <!--==Latest-Movies==================================-->
 <section id="latest">
 
@@ -103,6 +97,10 @@
         {% for movie in pagination  %}
         <!--post-box-1-->
         <div class="post-box">
+            <!--overlayer-->
+            <a href="{% url 'moviepost' movie.permalink %}" class="main-slider-overlay">
+                <i class="fas fa-play"></i>
+            </a>
             <!--img-->
             <div class="post-img">
                 <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
