@@ -27,7 +27,7 @@
     <div class="swiper mySwipermovieslider">
         <div class="swiper-wrapper">
 
-            {% for movie in slider.slide_movies.all %}
+            {% for movie in slider.slide_movies.all|slice:":8" reversed %}
             <!--slide-->
             <div class="swiper-slide">
                 <!--box-->
@@ -95,7 +95,7 @@
 
     <!--heading-->
     <div class="latest-heading">
-        <h1>Latest Movies</h1>
+        <h1>{{sitedata.latest_post_section_heading}}</h1>
     </div>
 
     <!--container-->

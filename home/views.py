@@ -20,8 +20,15 @@ def index(request):
 
 def moviepost(request, permalink):
     moviedetails = Movie.objects.filter(permalink=permalink).first()
+    relaated_category = moviedetails.movie_categories.all()
+    relaated_movie = []
+    for relaated_category in relaated_category:
+        relaated_category.counter = Movie.objects.filter(movie_categories=relaated_category)
+        relaated_movie += relaated_category.counter
+    r_movie = list(dict.fromkeys(relaated_movie))
+    r_movie.remove(moviedetails)
     if moviedetails:
-        context = {'moviedetails':moviedetails}
+        context = {'moviedetails':moviedetails,'r_movie':r_movie}
         return render(request, 'home/movie-details.html', context)
     else:
         return render(request, 'home/404.html')

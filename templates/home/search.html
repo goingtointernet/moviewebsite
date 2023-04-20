@@ -74,28 +74,13 @@
 <!--page-number=====================-->
 <div class="page-number">
     {% if pagination.has_previous %}
-    <a href="{% url 'search' %}?search={{search}}&page={{pagination.previous_page_number}}"><</a>
-        <a href="{% url 'search' %}?search={{search}}&page=1">First</a>
-        ...
+    <a href="?page={{pagination.previous_page_number}}"><<</a>
+    <a href="?page=1">Previous</a>
     {% endif %}
 
-    {% if page_range == 1 %}
-    {% else %}
-    {% for p in page_range|slice:":4" %}
-        <a href="{% url 'search' %}?search={{search}}&page={{p}}"
-        
-        {% if pagination.number == p %}
-        class="page-active"
-        {% endif %}
-
-        >{{p}}</a>
-    {% endfor %}
-    {% endif %}
-
-    {% if pagination.has_next %}
-    ....        
-    <a href="{% url 'search' %}?search={{search}}&page={{pagination.paginator.num_pages}}"> Last</a>
-    <a href="{% url 'search' %}?search={{search}}&page={{pagination.next_page_number}}">></a>
+    {% if pagination.has_next %}    
+    <a href="?page={{pagination.next_page_number}}">Next</a>
+    <a href="?page={{pagination.paginator.num_pages}}"> >></a>
     {% endif %}
 </div>
 

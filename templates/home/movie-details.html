@@ -14,6 +14,12 @@
     <meta property="og:description" content="{{moviedetails.meta_description}}">
 {% endblock head_meta %}
 
+
+{% block head_code %}
+<!--==CSS-Swiper==============================-->
+<link rel="stylesheet" href="{% static 'css/swiper-bundle.min.css' %}" />
+{% endblock head_code %}
+
 <!--==body============================-->
 {% block body %}
 <!--==Movie-Banner=========================================-->
@@ -70,11 +76,13 @@
         <!--play-btn******************************-->
         <div class="play-btn-container">
             <div class="play-btn">
-                <a href="javascript:void">
+                <a href="javascript:void(0);">
                     <i class="fas fa-play"></i>
                 </a>
             </div>
+            <span>Watch Online</span>
         </div>
+
 
         <!--Video/full-Movie***************************-->
         <div id="play" class="play">
@@ -84,7 +92,11 @@
             </a>
             <!--movie-->
             <div class="play-movie">
-                <iframe src="{{moviedetails.movie_stream_link}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% if moviedetails.movie_imdb_id %}
+                <iframe src="https://www.2embed.to/embed/imdb/movie?id={{moviedetails.movie_imdb_id}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% else %}
+                <iframe src="{{moviedetails.movie_stream_cutome_link}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% endif %}
             </div>
         </div>
 
@@ -143,10 +155,82 @@
     </div>
 
 </section>
+
+{% if sitedata.show_ads == True %}
+<br>
+    <!--ad-->
+    <div class="simple-ad ads">
+        {{ads.simple_content_ad|safe}}
+    </div>
+<br>
+{% endif %}
+
+<!--heading-->
+<div class="latest-heading" style="max-width:1170px; width:90%; margin:auto;">
+    <h1>Related Movies</h1>
+</div>
+<!--==slider============================================-->
+<section id="main-slider">
+    <!-- Swiper -->
+    <div class="swiper mySwipermovieslider">
+        <div class="swiper-wrapper">
+
+            {% if r_movie|length < 1 %}
+                <span style="color:red;">No Any Related Movie Are Found!</span>
+            {% endif %}
+
+            {% for movie in r_movie|slice:":6" reversed %}
+            <!--slide-->
+            <div class="swiper-slide">
+                <!--box-->
+                <div class="main-slider-box">
+                    <!--overlayer-->
+                    <a href="{% url 'moviepost' movie.permalink %}" class="main-slider-overlay">
+                        <i class="fas fa-play"></i>
+                    </a>
+                    <!--img-->
+                    <div class="main-slider-img">
+                        <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
+                    </div>
+                    <!--text-->
+                    <div class="main-slider-text">
+                        <!--quality-->
+                        <span class="quality">{{movie.movie_quality}}</span>
+                        <!--bottom-text-->
+                        <div class="bottom-text">
+                            <!--name-->
+                            <div class="movie-name">
+                                <span>{{movie.movie_pulished_date}}</span>
+                                <a href="{% url 'moviepost' movie.permalink %}">{{movie.title}}</a>
+                            </div>
+                            <!--Category-and-rating-->
+                            <div class="category-rating">
+                                <!--category-->
+                                <div class="category">
+                                    {% for category in movie.movie_categories.all %}
+                                    <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
+                                    {% endfor %}
+                                </div>
+                                <!--rating-->
+                                <div class="rating">
+                                    {{movie.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!--slide-end-->
+            {% endfor %}
+
+        </div>
+    </div>
+</section><!--slider-end-->
 {% endblock body %}
 
 <!--==script==========================-->
 {% block script %}
+<!--==JS-Swiper====================================-->
+<script src="{% static 'js/swiper-bundle.min.js' %}"></script>
 <script>
     /*==popup-open==================================*/
     $(document).on('click', '.play-btn a', function () {
@@ -156,13 +240,46 @@
     $(document).on('click', '.close-movie', function () {
         $('.play').removeClass('active-popup');
     });
-    /*==auto-play-when-popup-open===================*/
+    /*==auto-play-when-popup-open================
     $('.play-btn a').click(function () {
         $('#m-video')[0].play();
-    });
-    /*==Close-video-when-poppup-close==============*/
+    });===*/
+    /*==Close-video-when-poppup-close============
     $('.close-movie').click(function () {
         $('#m-video')[0].pause();
+    });==*/
+
+
+    /*Initialize Swiper*/
+    var swiper = new Swiper(".mySwipermovieslider", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 40,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 50,
+            },
+        },
     });
 
 </script>

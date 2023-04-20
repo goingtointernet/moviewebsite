@@ -691,9 +691,15 @@ footer .logo{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     margin: auto;
     width: 100%;
     max-width: 500px;
+}
+.play-btn-container span{
+    color: #ffffff;
+    margin-top: 35px;
+    font-size: 0.9rem;
 }
 .play-btn::before{
     content: '';
@@ -734,6 +740,17 @@ footer .logo{
     object-fit: cover;
     z-index: 108;
 }
+@media(max-width:724px){
+    .play-movie{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+    }
+    .play-movie iframe{
+        max-height: 280px;
+    }
+}
 .close-movie{
     position: fixed;
     right: 60px;
@@ -741,6 +758,7 @@ footer .logo{
     font-size: 2rem;
     color: var(--main-color);
     transition: all ease 0.3s;
+    z-index: 1000;
 }
 .close-movie:hover{
     opacity: 0.6;

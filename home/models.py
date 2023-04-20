@@ -39,7 +39,8 @@ class Movie(models.Model):
     movie_quality = models.CharField(max_length=80, default="HD")
     movie_language = models.CharField(max_length=160)
     movie_trailer_link = models.CharField(max_length=160)
-    movie_stream_link = models.CharField(max_length=160)
+    movie_imdb_id = models.CharField(max_length=260, default="", null=True, blank=True)
+    movie_stream_cutome_link = models.CharField(max_length=260, default="", null=True, blank=True)
     download_links = models.ManyToManyField(DownloadLink, blank=True)
     permalink =models.CharField(max_length=70, unique=True)
 
@@ -69,6 +70,7 @@ class SiteData(models.Model):
     site_name = models.CharField(max_length=100, default='')
     title = models.CharField(max_length=100, default='')
     slider_box_height = models.CharField(max_length=100, default='450px')
+    latest_post_section_heading = models.CharField(max_length=100, default='Latest Movies')
     movie_box_height = models.CharField(max_length=100, default='550px')
     movie_banner_min_height = models.CharField(max_length=100, default='520px')
     meta_description = models.CharField(max_length=150, default='')
