@@ -73,13 +73,21 @@
             {{sitedata.logo}}<span>.hd</span>
         </a>
         <!--menu-->
+        <div class="side-menu">
+        <div class="menu-container">
+        <strong>Main Links</strong>
+        <label for="menu-btn" class="close-btn">
+            <i class="fa-solid fa-xmark"></i>
+        </label>
         <ul class="menu">
             <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="{% url 'search' %}?search=Action">Action</a></li>
-            <li><a href="{% url 'search' %}?search=Horror">Horror</a></li>
-            <li><a href="{% url 'index' %}">Movies</a></li>
-            <li><a href="#">Contact</a></li>
+            {% for menu in menu %}
+                <li><a href="{% url 'search' %}?search={{menu.name}}">{{menu.name}}</a></li>
+            {% endfor %}
         </ul>
+        </div>
+        </div>
+        <a href="{% url 'search' %}?search=Tv Show" class="nav_tv_shows"><i class="fa-solid fa-tv"></i> TV Shows</a>
         <!--Search-box-->
         <form action="{% url 'search' %}" method="GET" class="search-box">
             <!--input-->

@@ -68,7 +68,9 @@
                     {% endfor %}
                 </div>
                 <!--trailer-btn-->
-                <a href="{{moviedetails.movie_trailer_link}}" class="watch-btn">Watch Trailer</a>
+                <a href="javascript:void(0);" class="watch-btn">
+                    Watch Trailer
+                </a>
             </div>
 
         </div>
@@ -107,6 +109,19 @@
                 {% else %}
                 <iframe src="{{moviedetails.movie_stream_cutome_link}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
                 {% endif %}
+            </div>
+        </div>
+
+
+        <!--Video/full-Movie***************************-->
+        <div id="play_trailer" class="play_trailer">
+            <!--close-btn-->
+            <a href="javascript:void" class="close-trailer">
+                <i class="fas fa-times"></i>
+            </a>
+            <!--movie-->
+            <div class="play-trailer">
+                <iframe src="{{moviedetails.movie_trailer_link}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
             </div>
         </div>
 
@@ -233,6 +248,15 @@
     /*==popup-Close==================================*/
     $(document).on('click', '.close-movie', function () {
         $('.play').removeClass('active-popup');
+    });
+
+    /*==popup-open=(trailer)=================================*/
+    $(document).on('click', '.watch-btn', function () {
+        $('.play_trailer').addClass('active-popup');
+    });
+    /*==popup-Close==(trailer)================================*/
+    $(document).on('click', '.close-trailer', function () {
+        $('.play_trailer').removeClass('active-popup');
     });
     /*==auto-play-when-popup-open================
     $('.play-btn a').click(function () {

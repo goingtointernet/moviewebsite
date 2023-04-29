@@ -71,6 +71,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.sitedata',
                 'home.context_processors.ads',
+                'home.context_processors.menu',
             ],
         },
     },

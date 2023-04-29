@@ -100,3 +100,11 @@ class Ads(models.Model):
     footer_ad = models.TextField(default="")
     fixed_ad = models.TextField(default="")
     show_fixed_ad = models.BooleanField('show fixed ad', default=False)
+
+
+# Menu
+class Menu(models.Model):
+    name = models.CharField(max_length=160, default="")
+
+    def __str__(self):
+        return self.name

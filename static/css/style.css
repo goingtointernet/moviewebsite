@@ -101,43 +101,96 @@ a{
 }
 
 /*--menu-------------*/
-.menu{
-    position: fixed;
-    left: 0px;
-    top: 0px;
+.menu-container{
     width: 100%;
     height: 100%;
-    background-color: var(--nav-bg);
-    z-index: 106;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    animation: fade 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: var(--bg-color);
 }
-.menu li a{
-    color:var(--text-color);
-    margin: 0px 40px;
-    font-size: 2rem;
-    font-family: Monoton;
-    transition: all ease 0.3s;
+.menu{
+    background-color: var(--bg-color);
+}
+.side-menu{
+    position: fixed;
+    left:-100%;
+    top: 0px;
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+    overflow-y: auto;
+    box-shadow: 2px 2px 30px rgba(0,0,0,0.06);
+    z-index: 110;
+    transition: all ease 0.6s;
+}
+.side-menu::before{
+    content: '';
+    position:fixed;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.3);
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    display: none;
+    backdrop-filter:blur(2px) ;
+}
+.side-menu strong{
+    display: block;
+    font-weight: 600;
+    color: var(--main-color);
+    margin: 15px;
+    padding: 5px 10px;
+    background-color: var(--heading-bg);
+    border-radius: 7px;
+    font-size:1.2rem;
+    font-weight: 400;
+    font-family: 'Monoton';
+}
+.side-menu .menu{
+    display: block;
+    width: 100%;
+}
+ .menu li a{
+    padding: 10px 20px;
+    display: flex;
+    margin: 5px auto;
+    width: 95%;
+    color: var(--text-color);
+    font-weight: 500;
+    background-color: var(--heading-bg);
+    border-radius: 10px;
 }
 .menu li a:hover{
-    font-size: 2.3rem;
     color: var(--main-color);
-    transition: all ease 0.3s;
 }
 
-.navigation .menu-btn:checked ~ .menu{
+.menu-btn:checked ~ .side-menu{
+    left: 0px;
+}
+.menu-btn:checked ~ .side-menu::before{
+    display: block;
+}
+.close-btn{
+    position: absolute !important;
+    right: 10px;
+    top: 10px;
+    border-radius: 50%;
+    background-color: var(--heading-bg);
+    width: 40px;
+    height: 40px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-weight: 800;
+    color: var(--text-color);
 }
-
-@keyframes fade{
-    0%{
-        opacity: 0;
-    }
-    100%{
-        opacity: 1;
-    }
+/*==making-responsive============*/
+.menu-btn{
+    display: none;
 }
 /*--logo--------------*/
 .logo{
@@ -185,6 +238,23 @@ a{
     border: none;
     outline: none;
     cursor: pointer;
+}
+.nav_tv_shows{
+    margin-right: 20px;
+    color: var(--paragraph-color);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    background-color: var(--heading-bg);
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: all ease 0.3s;
+}
+.nav_tv_shows i{
+    color: var(--main-color);
+    margin-right: 5px;
+}
+.nav_tv_shows:hover{
+    opacity: 0.9;
 }
 /*==slider===============================*/
 #main-slider{
@@ -444,13 +514,7 @@ footer .logo{
     .slider-btns{
         width: 90%;
     }
-    .menu li a{
-        margin: 0px;
-        font-size: 1.6rem;
-    }
-    .menu {
-        flex-direction: column;
-    }
+    
 }
 @media(max-width:1100px){
     .post-container{
@@ -490,6 +554,13 @@ footer .logo{
         width: 100%;
         border-radius: 0px;
         margin-top: 10px;
+    }
+    .nav_tv_shows{
+        grid-column: 1/4;
+        margin-top: 8px;
+        margin-right: 0px;
+        padding: 10px;
+        border-radius: 2px;
     }
     .nav-modes{
         grid-row: 1/2;
@@ -718,7 +789,8 @@ footer .logo{
     z-index: -1;
 }
 /*==full-movie-video==================*/
-#play{
+#play,
+#play_trailer{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -731,12 +803,15 @@ footer .logo{
     z-index: 108;
     display: none;
 }
-.play-movie{
+.play-movie,
+.play-trailer{
     width: 80%;
+    max-height: 500px;
     height: 90%;
 }
 .play-movie video,
-.play-movie iframe{
+.play-movie iframe,
+.play-trailer iframe{
     width: 100%;
     height: 100%;
     object-position: center;
@@ -744,17 +819,20 @@ footer .logo{
     z-index: 108;
 }
 @media(max-width:724px){
-    .play-movie{
+    .play-movie,
+    .play-trailer{
         display: flex;
         justify-content: center;
         align-items: center;
         width: 90%;
     }
-    .play-movie iframe{
+    .play-movie iframe,
+    .play-trailer iframe{
         max-height: 280px;
     }
 }
-.close-movie{
+.close-movie,
+.close-trailer{
     position: fixed;
     right: 60px;
     top: 60px;
@@ -763,7 +841,8 @@ footer .logo{
     transition: all ease 0.3s;
     z-index: 1000;
 }
-.close-movie:hover{
+.close-movie:hover,
+.close-trailer:hover{
     opacity: 0.6;
     transition: all ease 0.3s;
 }
