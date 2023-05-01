@@ -1,0 +1,38 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+<!--==title====================-->
+{% block title %}Request Movie - MHD{% endblock title %}
+
+
+<!--==body============================-->
+{% block body %}
+
+<!--==Latest-Movies==================================-->
+<section id="latest">
+
+    <!--heading-->
+    <div class="latest-heading">
+        <h1>Make Request For Movies</h1>
+    </div>
+
+    <!--**request-container****-->
+    <div class="request-container">
+        <!--form-->
+        <form>
+            <h2>Request Form</h2>
+            <input type="text" placeholder="Requested Movie Name" name="movie_name" required>
+            <input type="email" placeholder="Enter Your Email" name="email" required>
+            <input type="text" name="user_name" placeholder="Your Full Name" required>
+            <button>Submit</button>
+        </form>
+    </div>
+
+</section>
+
+{% endblock body %}
+
+<!--==script==========================-->
+{% block script %}
+
+{% endblock script %}

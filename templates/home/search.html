@@ -20,7 +20,7 @@
     <div class="search-not-found">
         {% load static %}
         <img src="{% static 'images/404.svg' %}" />
-        <span>Movie Not Found, <b>Try Another</b></span>
+        <span>Movie Not Found, <a href="{% url 'movie_request' %}">Request The Movie <i class="fa-solid fa-paper-plane"></i></a></span>
     </div>
     {% endif %}
 

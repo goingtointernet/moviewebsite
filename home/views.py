@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 def index(request):
-    p = Paginator(Movie.objects.all().order_by('-pk'),10)
+    p = Paginator(Movie.objects.all().order_by('-pk'),20)
     page = request.GET.get('page')
     pagination = p.get_page(page)
     current_numer = pagination.number
@@ -69,3 +69,8 @@ def search(request):
 
     params={'pagination': pagination,'search':search, 'page_range':page_range}
     return render(request, 'home/search.html', params)
+
+
+
+def movie_request(request):
+    return render(request, 'home/request.html')

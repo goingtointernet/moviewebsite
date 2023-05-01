@@ -24,7 +24,7 @@ class Movie(models.Model):
     meta_title = models.CharField(max_length=160, default='')
     meta_description = models.CharField(max_length=160, default='')
     title = models.CharField(max_length=160)
-    description = models.TextField(max_length=160, default='')
+    description = models.TextField(max_length=1000, default='')
     keyword = models.CharField(max_length=160, default='')
     movie_thumb = models.ImageField(upload_to='movie_thumb')
     movie_cover = models.ImageField(upload_to='movie_cover', null=True)
