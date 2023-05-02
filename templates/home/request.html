@@ -22,9 +22,9 @@
         <form method="POST">
             {% csrf_token %}
             <h2>Request Form</h2>
-            <input type="text" placeholder="Requested Movie Name" name="movie_name">
-            <input type="email" placeholder="Enter Your Email" name="email" >
-            <input type="text" name="name" placeholder="Your Full Name" >
+            <input type="text" placeholder="Requested Movie Name" name="movie_name" required>
+            <input type="email" placeholder="Enter Your Email" name="email" required>
+            <input type="text" name="name" placeholder="Your Full Name" required>
             <button>Submit</button>
         </form>
 
