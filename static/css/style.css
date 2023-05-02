@@ -1182,3 +1182,20 @@ footer .logo{
 .search-not-found a:hover{
     color: var(--text-color);
 }
+.success-message,
+.error-message{
+    background-color: #137c3b;
+    color: #ffffff;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 20px;
+    max-width: 800px;
+    margin: 10px auto;
+    border-radius: 3px;
+}
+
+.error-message{
+    background-color: #e42922;
+    color: #ffffff;}

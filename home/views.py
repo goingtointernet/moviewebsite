@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import Movie, MovieSlider
 from django.core.paginator import Paginator
+from django.core.mail import send_mail
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -73,4 +75,34 @@ def search(request):
 
 
 def movie_request(request):
-    return render(request, 'home/request.html')
+    message_success = None
+    error = None
+    if request.method == 'POST':
+        try:
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            movie_name = request.POST.get('movie_name')
+        except:
+            name = ""
+            email = ""
+            movie_name = ""
+        data = {
+            'movie':movie_name,
+            'name':name,
+            'email':email,
+        }
+        message = '''
+        Movie Name: {}
+        User Name: {}
+        User Email: {}
+        '''.format(data['movie'],data['name'],data['email'])
+        if name != "" and email != "" and movie_name != "" and name != None and email != None and movie_name != None:
+            try:
+                send_mail('Movie Request From User', message, '',['gmovie1264@gmail.com'])
+                message_success = "*Request Sent Successfully"
+            except:
+                error="*Please Enter Valid Values"
+
+        else:
+            error="*Please Fill All Fields Correctly"
+    return render(request, 'home/request.html',{"message_success":message_success,"error":error})

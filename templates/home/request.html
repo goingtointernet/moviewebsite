@@ -19,13 +19,26 @@
     <!--**request-container****-->
     <div class="request-container">
         <!--form-->
-        <form>
+        <form method="POST">
+            {% csrf_token %}
             <h2>Request Form</h2>
-            <input type="text" placeholder="Requested Movie Name" name="movie_name" required>
-            <input type="email" placeholder="Enter Your Email" name="email" required>
-            <input type="text" name="user_name" placeholder="Your Full Name" required>
+            <input type="text" placeholder="Requested Movie Name" name="movie_name">
+            <input type="email" placeholder="Enter Your Email" name="email" >
+            <input type="text" name="name" placeholder="Your Full Name" >
             <button>Submit</button>
         </form>
+
+        <!--**message**********-->
+        {% if messages %}
+            <span class="success-message">{{ message }}</span>
+        {% endif %}
+        {% if message_success %}
+            <span class="success-message">{{message_success}}</span>
+        {% endif %}
+
+        {% if error %}
+            <span class="error-message">{{error}}</span>
+        {% endif %}
     </div>
 
 </section>
