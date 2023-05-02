@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Movie, MovieSlider
+from .models import Movie, MovieSlider, HomeSections
 from django.core.paginator import Paginator
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -7,6 +7,9 @@ from django.contrib import messages
 # Create your views here.
 def index(request):
     p = Paginator(Movie.objects.all().order_by('-pk'),20)
+
+    home_sections = HomeSections.objects.all()
+
     page = request.GET.get('page')
     pagination = p.get_page(page)
     current_numer = pagination.number
@@ -18,7 +21,7 @@ def index(request):
     else:
         page_range =(current_numer, total_number)
     slider = MovieSlider.objects.all().first()
-    return render(request,'home/index.html', {'slider':slider, 'pagination':pagination, 'page_range':page_range})
+    return render(request,'home/index.html', {'home_sections':home_sections, 'slider':slider, 'pagination':pagination, 'page_range':page_range})
 
 def moviepost(request, permalink):
     moviedetails = Movie.objects.filter(permalink=permalink).first()

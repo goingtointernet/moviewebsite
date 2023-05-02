@@ -105,6 +105,10 @@ class Ads(models.Model):
 # Menu
 class Menu(models.Model):
     name = models.CharField(max_length=160, default="")
-
     def __str__(self):
         return self.name
+    
+class HomeSections(models.Model):
+    section_heading = models.CharField(max_length=160, default="")
+    selected_movies = models.ManyToManyField(Movie, blank=True)
+    movies_by_category = models.OneToOneField(Category, blank=True, null=True, default="None", on_delete=models.SET_NULL)
