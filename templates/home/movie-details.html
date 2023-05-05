@@ -5,13 +5,13 @@
 {% block title %}{{moviedetails.meta_title}}{% endblock title %}
 
 {% block head_meta %}
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="description" content="{{moviedetails.meta_description}}">
-    <meta name="keywords" content="{{moviedetails.keyword}}">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{sitedata.site_url}}/{{moviedetails.permalink}}">
-    <meta property="og:title" content="{{moviedetails.meta_title}}">
-    <meta property="og:description" content="{{moviedetails.meta_description}}">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="description" content="{{moviedetails.meta_description}}">
+<meta name="keywords" content="{{moviedetails.keyword}}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{sitedata.site_url}}/{{moviedetails.permalink}}">
+<meta property="og:title" content="{{moviedetails.meta_title}}">
+<meta property="og:description" content="{{moviedetails.meta_description}}">
 {% endblock head_meta %}
 
 
@@ -64,7 +64,7 @@
                 <div class="category">
                     <strong>Category</strong><br />
                     {% for category in moviedetails.movie_categories.all %}
-                        <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
+                    <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
                     {% endfor %}
                 </div>
                 <!--trailer-btn-->
@@ -78,14 +78,22 @@
         <!--play-btn******************************-->
         <div class="play-btn-container">
             <div class="play-btn">
+                {% if moviedetails.stream_season_number or moviedetails.stream_total_episode %}
+                <a href="#episodes">
+                    <i class="fas fa-play"></i>
+                </a>
+                {% else %}
                 <a href="javascript:void(0);">
                     <i class="fas fa-play"></i>
                 </a>
+                {% endif %}
             </div>
             <span>Watch Online</span>
         </div>
 
 
+        {% if moviedetails.stream_season_number or moviedetails.stream_total_episode %}
+        {% else %}
         <!--Video/full-Movie***************************-->
         <div id="play" class="play">
             <!--close-btn-->
@@ -94,22 +102,30 @@
             </a>
             <!--movie-->
             <div class="play-movie">
-                {% if moviedetails.movie_imdb_id and moviedetails.stream_season_number and moviedetails.stream_episode_number %}
-                <iframe src="https://www.2embed.to/embed/imdb/tv?id={{moviedetails.movie_imdb_id}}&s={{moviedetails.stream_season_number}}&e={{moviedetails.stream_episode_number}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
-                {% elif moviedetails.movie_tmbd_id and moviedetails.stream_season_number and moviedetails.stream_episode_number %}
-                <iframe src="https://www.2embed.to/embed/tmdb/tv?id={{moviedetails.movie_tmbd_id}}&s={{moviedetails.stream_season_number}}&e={{moviedetails.stream_episode_number}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
-                {% elif moviedetails.stream_movie_or_show_title and moviedetails.stream_movie_or_show_year and moviedetails.stream_season_number and moviedetails.stream_episode_number %}
-                <iframe src="https://www.2embed.to/embed/title/tv?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}&s={{moviedetails.stream_season_number}}&e={{moviedetails.stream_episode_number}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
-                {% elif moviedetails.movie_imdb_id %}
-                <iframe src="https://www.2embed.to/embed/imdb/movie?id={{moviedetails.movie_imdb_id}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                {% if moviedetails.movie_imdb_id %}
+                <iframe src="https://www.2embed.to/embed/imdb/movie?id={{moviedetails.movie_imdb_id}}"
+                    allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen"
+                    msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen"
+                    webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
                 {% elif moviedetails.movie_tmbd_id %}
-                <iframe src="https://www.2embed.to/embed/tmdb/movie?id={{moviedetails.movie_tmbd_id}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                <iframe src="https://www.2embed.to/embed/tmdb/movie?id={{moviedetails.movie_tmbd_id}}"
+                    allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen"
+                    msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen"
+                    webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
                 {% elif moviedetails.stream_movie_or_show_title and moviedetails.stream_movie_or_show_year %}
-                <iframe src="https://www.2embed.to/embed/title/movie?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                <iframe
+                    src="https://www.2embed.to/embed/title/movie?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}"
+                    allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen"
+                    msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen"
+                    webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
                 {% else %}
-                <iframe src="{{moviedetails.movie_stream_cutome_link}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                <iframe src="{{moviedetails.movie_stream_cutome_link}}" allowfullscreen="allowfullscreen"
+                    mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
+                    oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"
+                    frameborder="0"></iframe>
                 {% endif %}
             </div>
+            {% endif %}
         </div>
 
 
@@ -121,7 +137,10 @@
             </a>
             <!--movie-->
             <div class="play-trailer">
-                <iframe src="{{moviedetails.movie_trailer_link}}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+                <iframe src="{{moviedetails.movie_trailer_link}}" allowfullscreen="allowfullscreen"
+                    mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen"
+                    oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen"
+                    frameborder="0"></iframe>
             </div>
         </div>
 
@@ -130,7 +149,38 @@
 </section>
 <!--Banner-end-->
 
+{% if moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+<!--==episode===========================-->
+<section class="episode-container" id="episodes">
+    
+    <!--==episode numbers==-->
+    <div class="ep-no-container">
+        {% with ''|center:moviedetails.stream_total_episode as range %}
+        {% for _ in range %}
+        <label class="{% if forloop.first %}active{% endif %}" for="ep-video-{{ forloop.counter }}">Episode {{ forloop.counter }}</label>
+        {% endfor %}
+        {% endwith %}
+    </div>
 
+    {% with ''|center:moviedetails.stream_total_episode as range %}
+    {% for _ in range %}
+    <!--==ep-video==========-->
+    <div>
+        <input {% if forloop.first %}checked{% endif %} type="checkbox" id="ep-video-{{ forloop.counter }}" class="ep-video-btn">
+        <div class="ep-video">
+            {% if moviedetails.movie_imdb_id and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+            <iframe src="https://www.2embed.to/embed/imdb/tv?id={{moviedetails.movie_imdb_id}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+            {% elif moviedetails.movie_tmbd_id and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+            <iframe src="https://www.2embed.to/embed/tmdb/tv?id={{moviedetails.movie_tmbd_id}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+            {% elif moviedetails.stream_movie_or_show_title and moviedetails.stream_movie_or_show_year and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+            <iframe src="https://www.2embed.to/embed/title/tv?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+            {% endif %}
+        </div>
+    </div>
+    {% endfor %}
+    {% endwith %}
+</section>
+{% endif %}
 
 
 <!--details=====================================-->
@@ -159,16 +209,16 @@
 
     <!--container-->
     <div class="download-container">
-        {% for download in moviedetails.download_links.all  %}
+        {% for download in moviedetails.download_links.all %}
         <!--box-->
         <div class="download-box">
             <span><i class="fas fa-server"></i> Server {{ forloop.counter }}</span>
             <span>{{moviedetails.movie_language}}</span>
             <span>{{download.resolution}}</span>
-            <a href="{{download.link}}" >Download</a>
+            <a href="{{download.link}}">Download</a>
         </div><!--box-end-->
         {% endfor %}
-        
+
     </div>
 
 </section>
@@ -184,52 +234,52 @@
     <div class="swiper mySwipermovieslider">
         <div class="swiper-wrapper">
 
-            {% if r_movie|length < 1 %}
-                <span style="color:red;">No Any Related Movie Are Found!</span>
-            {% endif %}
+            {% if r_movie|length < 1 %} <span style="color:red;">No Any Related Movie Are Found!</span>
+                {% endif %}
 
-            {% for movie in r_movie|slice:":6" reversed %}
-            <!--slide-->
-            <div class="swiper-slide">
-                <!--box-->
-                <div class="main-slider-box">
-                    <!--overlayer-->
-                    <a href="{% url 'moviepost' movie.permalink %}" class="main-slider-overlay">
-                        <i class="fas fa-play"></i>
-                    </a>
-                    <!--img-->
-                    <div class="main-slider-img">
-                        <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
-                    </div>
-                    <!--text-->
-                    <div class="main-slider-text">
-                        <!--quality-->
-                        <span class="quality">{{movie.movie_quality}}</span>
-                        <!--bottom-text-->
-                        <div class="bottom-text">
-                            <!--name-->
-                            <div class="movie-name">
-                                <span>{{movie.movie_pulished_date}}</span>
-                                <a href="{% url 'moviepost' movie.permalink %}">{{movie.title}}</a>
-                            </div>
-                            <!--Category-and-rating-->
-                            <div class="category-rating">
-                                <!--category-->
-                                <div class="category">
-                                    {% for category in movie.movie_categories.all %}
-                                    <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
-                                    {% endfor %}
+                {% for movie in r_movie|slice:":6" reversed %}
+                <!--slide-->
+                <div class="swiper-slide">
+                    <!--box-->
+                    <div class="main-slider-box">
+                        <!--overlayer-->
+                        <a href="{% url 'moviepost' movie.permalink %}" class="main-slider-overlay">
+                            <i class="fas fa-play"></i>
+                        </a>
+                        <!--img-->
+                        <div class="main-slider-img">
+                            <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
+                        </div>
+                        <!--text-->
+                        <div class="main-slider-text">
+                            <!--quality-->
+                            <span class="quality">{{movie.movie_quality}}</span>
+                            <!--bottom-text-->
+                            <div class="bottom-text">
+                                <!--name-->
+                                <div class="movie-name">
+                                    <span>{{movie.movie_pulished_date}}</span>
+                                    <a href="{% url 'moviepost' movie.permalink %}">{{movie.title}}</a>
                                 </div>
-                                <!--rating-->
-                                <div class="rating">
-                                    {{movie.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd" />
+                                <!--Category-and-rating-->
+                                <div class="category-rating">
+                                    <!--category-->
+                                    <div class="category">
+                                        {% for category in movie.movie_categories.all %}
+                                        <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
+                                        {% endfor %}
+                                    </div>
+                                    <!--rating-->
+                                    <div class="rating">
+                                        {{movie.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}"
+                                            alt="imbd" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div><!--slide-end-->
-            {% endfor %}
+                </div><!--slide-end-->
+                {% endfor %}
 
         </div>
     </div>
@@ -241,6 +291,8 @@
 <!--==JS-Swiper====================================-->
 <script src="{% static 'js/swiper-bundle.min.js' %}"></script>
 <script>
+    {% if moviedetails.stream_season_number or moviedetails.stream_total_episode %}
+    {% else %}
     /*==popup-open==================================*/
     $(document).on('click', '.play-btn a', function () {
         $('.play').addClass('active-popup');
@@ -249,7 +301,7 @@
     $(document).on('click', '.close-movie', function () {
         $('.play').removeClass('active-popup');
     });
-
+    {% endif %}
     /*==popup-open=(trailer)=================================*/
     $(document).on('click', '.watch-btn', function () {
         $('.play_trailer').addClass('active-popup');
@@ -300,5 +352,12 @@
         },
     });
 
+    $(document).on('click', '.episode-container input[type="checkbox"]', function() {      
+        $('.episode-container input[type="checkbox"]').not(this).prop('checked', false);      
+    });
+
+    $(".ep-no-container label").click(function() {
+        $(this).addClass('active').siblings().removeClass('active');
+    });
 </script>
 {% endblock script %}

@@ -169,7 +169,7 @@
     </div>
 
     <!--container-->
-    <div class="post-container">
+    <div class="post-container custome-post-container-home">
         {% for movie in home_sections.selected_movies.all  %}
         <!--post-box-1-->
         <div class="post-box">
@@ -216,7 +216,7 @@
         </div><!--endbox-->
         {% endfor %}
 
-        {% for movie in pagination%}
+        {% for movie in allmovie%}
         {% for category in movie.movie_categories.all %}
             {% if category.name == home_sections.movies_by_category.name  %}
             {% if home_sections.selected_movies.all %}
@@ -361,5 +361,6 @@
             },
         },
     });
+
 </script>
 {% endblock script %}

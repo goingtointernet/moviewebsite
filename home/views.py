@@ -9,6 +9,7 @@ def index(request):
     p = Paginator(Movie.objects.all().order_by('-pk'),20)
 
     home_sections = HomeSections.objects.all()
+    allmovie = Movie.objects.all().order_by('-pk')
 
     page = request.GET.get('page')
     pagination = p.get_page(page)
@@ -21,7 +22,7 @@ def index(request):
     else:
         page_range =(current_numer, total_number)
     slider = MovieSlider.objects.all().first()
-    return render(request,'home/index.html', {'home_sections':home_sections, 'slider':slider, 'pagination':pagination, 'page_range':page_range})
+    return render(request,'home/index.html', {'allmovie':allmovie,'home_sections':home_sections, 'slider':slider, 'pagination':pagination, 'page_range':page_range})
 
 def moviepost(request, permalink):
     moviedetails = Movie.objects.filter(permalink=permalink).first()
