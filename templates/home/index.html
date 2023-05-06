@@ -93,8 +93,12 @@
     </div>
 
     <!--container-->
-    <div class="post-container">
-        {% for movie in pagination  %}
+    <div class="post-container home-post-container">
+         <!-- Swiper -->
+        <div class="swiper mySwipersmall">
+        <div class="swiper-wrapper">
+        {% for movie in pagination|slice:":20"  %}
+        <div class="swiper-slide">
         <!--post-box-1-->
         <div class="post-box">
             <!--overlayer-->
@@ -138,7 +142,10 @@
 
             </div>
         </div><!--endbox-->
+        </div>
         {% endfor %}
+    </div>
+    </div>
     </div>
 
 
@@ -169,8 +176,11 @@
     </div>
 
     <!--container-->
-    <div class="post-container custome-post-container-home">
+    <div class="post-container custome-post-container-home home-post-container">
+        <div class="swiper mySwipersmall">
+        <div class="swiper-wrapper">
         {% for movie in home_sections.selected_movies.all  %}
+        <div class="swiper-slide">
         <!--post-box-1-->
         <div class="post-box">
             <!--overlayer-->
@@ -214,6 +224,7 @@
 
             </div>
         </div><!--endbox-->
+        </div>
         {% endfor %}
 
         {% for movie in allmovie%}
@@ -222,6 +233,8 @@
             {% if home_sections.selected_movies.all %}
             {% for select in home_sections.selected_movies.all %}
                 {% if movie.title != select.title %}
+        
+        <div class="swiper-slide">
         <!--post-box-1-->
         <div class="post-box">
             <!--overlayer-->
@@ -265,6 +278,7 @@
 
             </div>
         </div><!--endbox-->
+        </div>
         {% endif %}
         {% endfor %}
 
@@ -317,6 +331,8 @@
         {% endfor %}
         {% endfor %}
     </div>
+    </div>
+    </div>
 
 
 
@@ -362,5 +378,36 @@
         },
     });
 
+    /*Initialize Swiper*/
+    var swiper = new Swiper(".mySwipersmall", {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            768: {
+                slidesPerView: 2,
+                spaceBetween: 40,
+            },
+            1024: {
+                slidesPerView: 5.2,
+                spaceBetween: 20,
+            },
+        },
+    });
 </script>
 {% endblock script %}

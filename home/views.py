@@ -6,7 +6,7 @@ from django.contrib import messages
 
 # Create your views here.
 def index(request):
-    p = Paginator(Movie.objects.all().order_by('-pk'),20)
+    p = Paginator(Movie.objects.all().order_by('-pk'),100)
 
     home_sections = HomeSections.objects.all()
     allmovie = Movie.objects.all().order_by('-pk')
