@@ -430,9 +430,7 @@ a{
     overflow: hidden;
     width: 100%;
 }
-.home-post-container{
-    grid-template-columns: 1fr;
-}
+
 .post-box{
     width: 100%;
     height: 250px;
@@ -1260,4 +1258,15 @@ footer .logo{
 }
 .ep-no-container label.active{
     color: var(--main-color);
+}
+.home-post-container{
+    grid-template-columns: 1fr !important;
+}
+.home-post-container .post-box{
+    height: 380px;
+}
+@media(max-width:500px){
+    .home-post-container .post-box{
+        height: 340px;
+    } 
 }
