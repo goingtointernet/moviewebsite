@@ -72,6 +72,7 @@ TEMPLATES = [
                 'home.context_processors.sitedata',
                 'home.context_processors.ads',
                 'home.context_processors.menu',
+                'home.context_processors.pages',
             ],
         },
     },

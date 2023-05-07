@@ -1,5 +1,5 @@
 from django.conf import settings
-from .models import SiteData, Ads, Menu
+from .models import SiteData, Ads, Menu, StaticPosts
 
 #Site Data
 def sitedata(request):
@@ -15,3 +15,8 @@ def ads(request):
 def menu(request):
     menu = Menu.objects.all().order_by('-pk')
     return {"menu": menu}
+
+#pages
+def pages(request):
+    pages = StaticPosts.objects.all().order_by('-pk')
+    return {"pages": pages}

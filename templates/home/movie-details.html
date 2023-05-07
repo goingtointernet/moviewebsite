@@ -27,7 +27,7 @@
 
     <!--==img==================================-->
     <div class="m-banner-img">
-        <img src="{{moviedetails.movie_thumb.url}}" alt="{{moviedetails.title}}">
+        <img src="{{moviedetails.movie_cover.url}}" alt="{{moviedetails.title}}">
     </div>
 
     <!--content================================-->
@@ -68,9 +68,9 @@
                     {% endfor %}
                 </div>
                 <!--trailer-btn-->
-                <a href="javascript:void(0);" class="watch-btn">
+                <span class="watch-btn">
                     Watch Trailer
-                </a>
+                </span>
             </div>
 
         </div>
@@ -78,28 +78,28 @@
         <!--play-btn******************************-->
         <div class="play-btn-container">
             <div class="play-btn">
-                {% if moviedetails.stream_season_number or moviedetails.stream_total_episode %}
+                {% if moviedetails.stream_season_number and moviedetails.stream_total_episode %}
                 <a href="#episodes">
                     <i class="fas fa-play"></i>
                 </a>
                 {% else %}
-                <a href="javascript:void(0);">
+                <span class="play-btn-a">
                     <i class="fas fa-play"></i>
-                </a>
+                </span>
                 {% endif %}
             </div>
             <span>Watch Online</span>
         </div>
 
 
-        {% if moviedetails.stream_season_number or moviedetails.stream_total_episode %}
+        {% if moviedetails.stream_season_number and moviedetails.stream_total_episode %}
         {% else %}
         <!--Video/full-Movie***************************-->
         <div id="play" class="play">
             <!--close-btn-->
-            <a href="javascript:void" class="close-movie">
+            <span class="close-movie">
                 <i class="fas fa-times"></i>
-            </a>
+            </span>
             <!--movie-->
             <div class="play-movie">
                 {% if moviedetails.movie_imdb_id %}
@@ -132,9 +132,9 @@
         <!--Video/full-Movie***************************-->
         <div id="play_trailer" class="play_trailer">
             <!--close-btn-->
-            <a href="javascript:void" class="close-trailer">
+            <span class="close-trailer">
                 <i class="fas fa-times"></i>
-            </a>
+            </span>
             <!--movie-->
             <div class="play-trailer">
                 <iframe src="{{moviedetails.movie_trailer_link}}" allowfullscreen="allowfullscreen"
@@ -157,28 +157,23 @@
     <div class="ep-no-container">
         {% with ''|center:moviedetails.stream_total_episode as range %}
         {% for _ in range %}
-        <label class="{% if forloop.first %}active{% endif %}" for="ep-video-{{ forloop.counter }}">Episode {{ forloop.counter }}</label>
+        <label class="{% if forloop.first %}active{% endif %} ep-no-{{ forloop.counter }}" for="ep-video-{{ forloop.counter }}">Episode {{ forloop.counter }}</label>
         {% endfor %}
         {% endwith %}
     </div>
 
-    {% with ''|center:moviedetails.stream_total_episode as range %}
-    {% for _ in range %}
     <!--==ep-video==========-->
     <div>
-        <input {% if forloop.first %}checked{% endif %} type="checkbox" id="ep-video-{{ forloop.counter }}" class="ep-video-btn">
-        <div class="ep-video">
+        <div class="ep-video" id="ep-video">
             {% if moviedetails.movie_imdb_id and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
-            <iframe src="https://www.2embed.to/embed/imdb/tv?id={{moviedetails.movie_imdb_id}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+            <iframe id="tv-show-video" src="https://www.2embed.to/embed/imdb/tv?id={{moviedetails.movie_imdb_id}}&s={{moviedetails.stream_season_number}}&e=1" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
             {% elif moviedetails.movie_tmbd_id and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
-            <iframe src="https://www.2embed.to/embed/tmdb/tv?id={{moviedetails.movie_tmbd_id}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+            <iframe id="tv-show-video" src="https://www.2embed.to/embed/tmdb/tv?id={{moviedetails.movie_tmbd_id}}&s={{moviedetails.stream_season_number}}&e=1" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
             {% elif moviedetails.stream_movie_or_show_title and moviedetails.stream_movie_or_show_year and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
-            <iframe src="https://www.2embed.to/embed/title/tv?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
+            <iframe id="tv-show-video" src="https://www.2embed.to/embed/title/tv?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}&s={{moviedetails.stream_season_number}}&e=1" allowfullscreen="allowfullscreen" mozallowfullscreen="mozallowfullscreen" msallowfullscreen="msallowfullscreen" oallowfullscreen="oallowfullscreen" webkitallowfullscreen="webkitallowfullscreen" frameborder="0"></iframe>
             {% endif %}
         </div>
     </div>
-    {% endfor %}
-    {% endwith %}
 </section>
 {% endif %}
 
@@ -229,7 +224,7 @@
     <h2>Related Movies</h2>
 </div>
 <!--==slider============================================-->
-<section id="main-slider">
+<section id="main-slider" class="related-movie-container">
     <!-- Swiper -->
     <div class="swiper mySwipermovieslider">
         <div class="swiper-wrapper">
@@ -294,21 +289,26 @@
     {% if moviedetails.stream_season_number or moviedetails.stream_total_episode %}
     {% else %}
     /*==popup-open==================================*/
-    $(document).on('click', '.play-btn a', function () {
+    $(document).on('click', '.play-btn .play-btn-a', function () {
         $('.play').addClass('active-popup');
     });
     /*==popup-Close==================================*/
     $(document).on('click', '.close-movie', function () {
         $('.play').removeClass('active-popup');
+        $('.play-movie iframe').attr('src', $('.play-movie iframe').attr('src'));
     });
     {% endif %}
     /*==popup-open=(trailer)=================================*/
     $(document).on('click', '.watch-btn', function () {
         $('.play_trailer').addClass('active-popup');
+        {% if moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+        $('.ep-video iframe').attr('src', $('.ep-video iframe').attr('src'));
+        {% endif %}
     });
     /*==popup-Close==(trailer)================================*/
     $(document).on('click', '.close-trailer', function () {
         $('.play_trailer').removeClass('active-popup');
+        $('.play_trailer iframe').attr('src', $('.play_trailer iframe').attr('src'));
     });
     /*==auto-play-when-popup-open================
     $('.play-btn a').click(function () {
@@ -337,27 +337,40 @@
             prevEl: ".swiper-button-prev",
         },
         breakpoints: {
-            640: {
+            340: {
                 slidesPerView: 2,
                 spaceBetween: 20,
             },
             768: {
-                slidesPerView: 2,
-                spaceBetween: 40,
+                slidesPerView: 3,
+                spaceBetween: 20,
             },
             1024: {
-                slidesPerView: 3,
-                spaceBetween: 50,
+                slidesPerView: 4,
+                spaceBetween: 20,
             },
         },
     });
 
-    $(document).on('click', '.episode-container input[type="checkbox"]', function() {      
-        $('.episode-container input[type="checkbox"]').not(this).prop('checked', false);      
-    });
 
     $(".ep-no-container label").click(function() {
         $(this).addClass('active').siblings().removeClass('active');
     });
+
+    {% if moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+    {% with ''|center:moviedetails.stream_total_episode as range %}
+    {% for _ in range %}
+    $(".ep-no-container .ep-no-{{ forloop.counter }}").click(function() {
+        {% if moviedetails.movie_imdb_id and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+        $('.ep-video iframe').attr("src","https://www.2embed.to/embed/imdb/tv?id={{moviedetails.movie_imdb_id}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}");
+        {% elif moviedetails.movie_tmbd_id and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+        $('.ep-video iframe').attr("src","https://www.2embed.to/embed/tmdb/tv?id={{moviedetails.movie_tmbd_id}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}");
+        {% elif moviedetails.stream_movie_or_show_title and moviedetails.stream_movie_or_show_year and moviedetails.stream_season_number and moviedetails.stream_total_episode %}
+        $('.ep-video iframe').attr("src","https://www.2embed.to/embed/title/tv?title={{moviedetails.stream_movie_or_show_title}}&year={{moviedetails.stream_movie_or_show_year}}&s={{moviedetails.stream_season_number}}&e={{ forloop.counter }}");
+        {% endif %}
+    });
+    {% endfor %}
+    {% endwith %}
+    {% endif %}
 </script>
 {% endblock script %}

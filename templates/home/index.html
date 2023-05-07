@@ -2,7 +2,7 @@
 
 {% load static %}
 <!--==title====================-->
-{% block title %}MHD - Full HD Movies{% endblock title %}
+{% block title %}All Movies And TV Shows - Globle Movies{% endblock title %}
 {% block head_meta %}
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="description" content="{{sitedata.meta_description}}">
@@ -90,6 +90,7 @@
     <!--heading-->
     <div class="latest-heading">
         <h1>{{sitedata.latest_post_section_heading}}</h1>
+        <a href="{% url 'latest' %}">View All</a>
     </div>
 
     <!--container-->
@@ -148,21 +149,6 @@
     </div>
     </div>
 
-
-<!--page-number=====================-->
-<div class="page-number">
-    {% if pagination.has_previous %}
-    <a href="?page={{pagination.previous_page_number}}"><<</a>
-    <a href="?page=1">Previous</a>
-    {% endif %}
-
-    {% if pagination.has_next %}    
-    <a href="?page={{pagination.next_page_number}}">Next</a>
-    <a href="?page={{pagination.paginator.num_pages}}"> >></a>
-    {% endif %}
-</div>
-
-
 </section><!--post-end-->
 
 
@@ -179,7 +165,7 @@
     <div class="post-container custome-post-container-home home-post-container">
         <div class="swiper mySwipersmall">
         <div class="swiper-wrapper">
-        {% for movie in home_sections.selected_movies.all  %}
+        {% for movie in home_sections.products|slice:":20"%}
         <div class="swiper-slide">
         <!--post-box-1-->
         <div class="post-box">
@@ -225,110 +211,7 @@
             </div>
         </div><!--endbox-->
         </div>
-        {% endfor %}
-
-        {% for movie in allmovie%}
-        {% for category in movie.movie_categories.all %}
-            {% if category.name == home_sections.movies_by_category.name  %}
-            {% if home_sections.selected_movies.all %}
-            {% for select in home_sections.selected_movies.all %}
-                {% if movie.title != select.title %}
         
-        <div class="swiper-slide">
-        <!--post-box-1-->
-        <div class="post-box">
-            <!--overlayer-->
-            <a href="{% url 'moviepost' movie.permalink %}" class="main-slider-overlay">
-                <i class="fas fa-play"></i>
-            </a>
-            <!--img-->
-            <div class="post-img">
-                <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
-            </div>
-            <!--text-->
-            <div class="main-slider-text">
-
-                <!--quality-->
-                <span class="quality">{{movie.movie_quality}}</span>
-
-                <!--bottom-text-->
-                <div class="bottom-text">
-
-                    <!--name-->
-                    <div class="movie-name">
-                        <span>{{movie.movie_pulished_date}}</span>
-                        <a href="{% url 'moviepost' movie.permalink %}">{{movie.title}}</a>
-                    </div>
-
-                    <!--Category-and-rating-->
-                    <div class="category-rating">
-                        <!--category-->
-                        <div class="category">
-                            {% for category in movie.movie_categories.all %}
-                                <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
-                            {% endfor %}
-                        </div>
-                        <!--rating-->
-                        <div class="rating">
-                            {{movie.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd" />
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div><!--endbox-->
-        </div>
-        {% endif %}
-        {% endfor %}
-
-        {% else %}
-        <!--post-box-1-->
-        <div class="post-box">
-            <!--overlayer-->
-            <a href="{% url 'moviepost' movie.permalink %}" class="main-slider-overlay">
-                <i class="fas fa-play"></i>
-            </a>
-            <!--img-->
-            <div class="post-img">
-                <img src="{{movie.movie_thumb.url}}" alt="{{movie.title}}" />
-            </div>
-            <!--text-->
-            <div class="main-slider-text">
-
-                <!--quality-->
-                <span class="quality">{{movie.movie_quality}}</span>
-
-                <!--bottom-text-->
-                <div class="bottom-text">
-
-                    <!--name-->
-                    <div class="movie-name">
-                        <span>{{movie.movie_pulished_date}}</span>
-                        <a href="{% url 'moviepost' movie.permalink %}">{{movie.title}}</a>
-                    </div>
-
-                    <!--Category-and-rating-->
-                    <div class="category-rating">
-                        <!--category-->
-                        <div class="category">
-                            {% for category in movie.movie_categories.all %}
-                                <a href="{% url 'index' %}search?search={{category.name}}">{{category.name}}</a>
-                            {% endfor %}
-                        </div>
-                        <!--rating-->
-                        <div class="rating">
-                            {{movie.imb_rating}} <img src="{% static 'images/IMDb-icon.png' %}" alt="imbd" />
-                        </div>
-                    </div>
-
-                </div>
-
-            </div>
-        </div><!--endbox-->
-        {% endif %}
-        {% endif %}
-        {% endfor %}
         {% endfor %}
     </div>
     </div>
@@ -373,7 +256,7 @@
             },
             1024: {
                 slidesPerView: 3,
-                spaceBetween: 50,
+                spaceBetween: 20,
             },
         },
     });

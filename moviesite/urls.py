@@ -22,11 +22,12 @@ from django.views.static import serve
 from django.urls import re_path as url
 from django.contrib.sitemaps.views import sitemap
 
-from home.sitemap import PostSitemap
+from home.sitemap import PostSitemap, PageSitemap
 from django.views.generic.base import TemplateView 
 
 sitemaps = {
-    'posts': PostSitemap
+    'posts': PostSitemap,
+    'pages': PageSitemap
 }
 
 urlpatterns = [
@@ -35,6 +36,7 @@ urlpatterns = [
     url(r'^static/(?P<path>.*)$', serve,{'document_root':settings.STATIC_ROOT}),
     path('sitemap.xml', sitemap, {'sitemaps':sitemaps}),
     path("robots.txt",TemplateView.as_view(template_name="seo/robots.txt", content_type="text/plain")),  #add the robots.txt file
+    path("ads.txt",TemplateView.as_view(template_name="seo/ads.txt", content_type="text/plain")),  #add the ads.txt file
     path('', include('home.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% load static %}
+<!--==title====================-->
+{% block title %}{{pagedetails.title}} - Globle Movies{% endblock title %}
+
+{% block head_meta %}
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="description" content="{{pagedetails.meta_desc}}">
+<meta name="keywords" content="{{pagedetails.meta_key}}">
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{sitedata.site_url}}/{{moviedetails.permalink}}">
+<meta property="og:title" content="{{moviedetails.title}}">
+<meta property="og:description" content="{{moviedetails.meta_desc}}">
+{% endblock head_meta %}
+
+
+<!--==body============================-->
+{% block body %}
+<!--==Movie-Banner=========================================-->
+<section class="page-details">
+    {{pagedetails.content|safe}}   
+</section><!--slider-end-->
+{% endblock body %}
+

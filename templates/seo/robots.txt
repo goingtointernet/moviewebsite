@@ -2,4 +2,4 @@ User-agent: *
 Disallow: /search
 Allow: /
 
-Sitemap: https://www.sitename.com/sitemap.xml
+Sitemap: https://gmovie.org/sitemap.xml

@@ -33,7 +33,7 @@ var icon = document.getElementById("nav-modes");
     }
     /*If "theme" Value is Not DARK Value Do This*/
     else{
-        document.body.classList = "";
+        document.body.classList = "dark-theme";
         icon.classList.add("fa-sun")
         icon.classList.remove("fa-moon")
     }
