@@ -75,17 +75,11 @@
         <!--menu-->
         <div class="side-menu">
         <div class="menu-container">
-        <strong>Pages</strong>
+        <strong>Categories</strong>
         <label for="menu-btn" class="close-btn">
             <i class="fa-solid fa-xmark"></i>
         </label>
         <ul class="menu">
-            <li><a href="{% url 'index' %}">Home</a></li>
-            {% for page in pages %}
-                <li><a href="{{page.permalink}}">{{page.page_name}}</a></li>
-            {% endfor %}
-            <li><a href="{% url 'contact' %}">Contact Us</a></li>
-            <strong>Categories</strong>
             {% for menu in menu %}
                 <li><a href="{% url 'search' %}?search={{menu.name}}">{{menu.name}}</a></li>
             {% endfor %}
@@ -121,16 +115,22 @@
         <br/>
     {% endif %}
 
-       <!--==footer==============================-->
-       <footer>
-        <!--footer-logo-->
-        <a href="{% url 'index' %}" class="logo">
-            {{sitedata.logo}}<span>.org</span>
-        </a>
-        <!--copyright-->
-        <span class="copyright">
-            {{sitedata.made_by}} - {{sitedata.copyright}}
-        </span>
+
+    <!--==footer===============================-->
+    <footer>
+        <div class="footer-container">
+            <!--logo-->
+            <a href="{% url 'index' %}" class="logo">
+                 {{sitedata.logo}}<span>.org</span>
+            </a>
+            <!--menu-->
+            <ul>
+                {% for page in pages %}
+                    <li><a href="{% url 'index' %}{{page.slug}}">{{page.page_name}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <span class="copyright"><span>{{sitedata.made_by}}</span> - {{sitedata.copyright}}</span>
     </footer>
     
 
