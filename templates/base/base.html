@@ -128,6 +128,7 @@
                 {% for page in pages %}
                     <li><a href="{% url 'index' %}{{page.slug}}">{{page.page_name}}</a></li>
                 {% endfor %}
+                <li><a href="{% url 'contact' %}">Contact</a></li>
             </ul>
         </div>
         <span class="copyright"><span>{{sitedata.made_by}}</span> - {{sitedata.copyright}}</span>
