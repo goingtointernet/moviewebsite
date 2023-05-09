@@ -26,10 +26,9 @@ SECRET_KEY = 'django-insecure-rns1#!aoxgs9a-e5l@9-qk112j@q&6oc+z_3%p1o6euhwqw!+l
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
-
+CSRF_TRUSTED_ORIGINS = ['https://*.gmovie.org','https://gmovie.org','http://127.0.0.1:8000/' ]
+CSRF_COOKIE_SECURE = False
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
